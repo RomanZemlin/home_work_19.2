@@ -1,6 +1,17 @@
-from django.apps import AppConfig
+from django.contrib import admin
+
+from catalog.models import *
 
 
-class CatalogConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'catalog'
+# Register your models here.
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'price', 'category',)
+    list_filter = ('category',)
+    search_fields = ('name', 'description',)
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name',)
+
