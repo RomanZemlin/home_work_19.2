@@ -1,0 +1,17 @@
+from django.urls import path
+from django.views.generic import TemplateView
+
+from blog import views
+from users.views import LoginView, LogoutView, UserCreateView, UserUpdateView, reset_password, activate
+
+urlpatterns = [
+    path('', LoginView.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
+    path('register/', UserCreateView.as_view(), name='register'),
+    path('profile/', UserUpdateView.as_view(), name='profile'),
+    path('profile/reset_password/', reset_password, name='reset_password'),
+    path('register/verify_email/', TemplateView.as_view(template_name='users/verify.html'), name='verify_email'),
+    path('register/success/', TemplateView.as_view(template_name='users/success_verify.html'), name='success_verify'),
+    path('register/failure/', TemplateView.as_view(template_name='users/failure_verify.html'), name='failure_verify'),
+    path('activate/<str:uidb64>/<str:token>/', activate, name='activate'),
+]

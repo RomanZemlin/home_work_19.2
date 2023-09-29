@@ -1,0 +1,32 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+    {% load my_tags %}
+    <div class="row text-center">
+        <div class="col-sm-3 mb-6 mb-sm-0">
+            <div class="card" style="width: 28rem;">
+                <img src="{{ product.image|mediapath }}" class="card-img-top">
+                <div class="card-header">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ product.description }}</p>
+                    <p class="card-text">Категория: {{ product.category }}</p>
+                    <p class="card-text">Цена: {{ product.price }} руб.</p>
+                    {% for version in product.versions.all %}
+                        {% if version.current_version %}
+                            <p class="card-text">Версия: {{ version.number_version }}</p>
+                        {% endif %}
+                    {% endfor %}
+                    <p class="card-text">Владелец: {{ product.owner|default:'Django shop' }}</p>
+                    <a href="{% url 'home' %}" class="btn btn-primary">К списку товаров</a>
+                </div>
+                {% if user.is_authenticated %}
+                    <div class="card-footer">
+                        <a href="{% url 'product_update' object.id %}" class="btn btn-secondary">Редактировать</a>
+                        <a href="{% url 'product_delete' object.id %}" class="btn btn-danger">Удалить</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
